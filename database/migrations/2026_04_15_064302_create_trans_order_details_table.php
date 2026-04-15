@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('trans_orders')->cascadeOnDelete()->nullable();
             $table->foreignId('service_id')->constrained('type_of_services')->cascadeOnDelete()->nullable();
-            $table->integer('qty');
+            $table->decimal('qty',5,2);
             $table->double('subtotal',10,2);
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

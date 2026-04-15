@@ -11,6 +11,6 @@ class TransOrderDetail extends Model
     ];
 
     public function service(){
-        return $this->hasMany(TypeOfService::class, 'services_id', 'id');
+        return $this->belongsTo(TypeOfService::class, 'service_id', 'id');
     }
 }

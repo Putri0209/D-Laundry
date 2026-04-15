@@ -1,31 +1,54 @@
 <?php
 
-
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\TransOrderController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TypeOfServiceController;
 use App\Http\Controllers\UserController;
-
 use Illuminate\Support\Facades\Route;
 
 
-
-Route::get('navbar', function () {
-    return view('inc.navbar');
-});
-
+// ================= LOGIN =================
 Route::get('/', [LoginController::class, 'index']);
 Route::post('action-login', [LoginController::class, 'actionLogin'])->name('action-login');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+// admin
+Route::middleware(['level:administrator'])->group(function () {
 
-Route::resource('user', UserController::class);
-Route::resource('level', LevelController::class);
-Route::resource('customer', CustomerController::class);
-Route::resource('service', TypeOfServiceController::class);
-Route::resource('transaction', TransOrderController::class);
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::resource('user', UserController::class);
+    Route::resource('level', LevelController::class);
+    Route::resource('customer', CustomerController::class);
+    Route::resource('service', TypeOfServiceController::class);
+    Route::resource('transaction', TransactionController::class);
+
+    Route::post('/transaction/{id}/update-status', [TransactionController::class, 'updateStatus'])
+        ->name('transaction.updateStatus');
+});
+
+
+// operator
+Route::middleware(['level:operator'])->group(function () {
+
+    Route::resource('customer', CustomerController::class);
+    Route::resource('transaction', TransactionController::class);
+
+    Route::post('/transaction/{id}/update-status', [TransactionController::class, 'updateStatus'])
+        ->name('transaction.updateStatus');
+});
+
+
+// pimpinan
+Route::middleware(['level:pimpinan'])->group(function () {
+
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::get('report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('/report/pdf', [ReportController::class, 'exportPdf'])->name('report.pdf');
+});

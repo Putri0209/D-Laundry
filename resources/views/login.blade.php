@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Berita Acara || PPKD JP</title>
+    <title>D'Laundry</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -102,7 +102,7 @@
                                             <button class="btn btn-primary w-100" type="submit">Login</button>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
                             </div>
 

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Customer;
+use App\Models\TransLaundryPickup;
+use App\Models\TransOrderDetail;
 use Illuminate\Database\Eloquent\Model;
 
 class TransOrder extends Model
@@ -13,4 +15,13 @@ class TransOrder extends Model
     public function customer(){
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
+
+    public function details()
+{
+    return $this->hasMany(TransOrderDetail::class, 'order_id', 'id');
+}
+public function pickup()
+{
+    return $this->hasOne(TransLaundryPickup::class, 'order_id', 'id');
+}
 }
