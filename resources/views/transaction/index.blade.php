@@ -6,29 +6,33 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
                 <div class="mb-3" align="right">
-                    <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">Create New User</a>
+                    <a href="{{route('transaction.create')}}" class="btn btn-primary btn-sm">Create New Transaction</a>
                 </div>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Level</th>
-                            <th>Nama</th>
-                            <th>Email</th>
+                            <th>Customer</th>
+                            <th>Order Code</th>
+                            <th>Order Date</th>
+                            <th>Order End Date</th>
+                            <th>Order Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
                 <tbody>
-                    @foreach ($users as $user )
+                    @foreach ($orders as $order )
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->level->level_name}}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{$user->email}}</td>
+                        <td>{{ $order->customer->customer_name}}</td>
+                        <td>{{ $order->order_code }}</td>
+                        <td>{{ $order->order_date}}</td>
+                        <td>{{ $order->order_end_date}}</td>
+                        <td>{{ $order->order_status}}</td>
                         <td>
-                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="post" class="d-inline">
+                            <a href="{{ route('transaction.edit', $transaction->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form id="delete-form-{{ $transaction->id }}" action="{{ route('transaction.destroy', $transaction->id) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>

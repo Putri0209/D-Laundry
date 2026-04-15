@@ -13,10 +13,10 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="name" class="form-label">Role</label>
-                            <select name="role_id" id="form-control" class="form-select">
-                                <option value="">--Select Role--</option>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}" {{ $role->id == $user->role_id ? 'selected': '' }}>{{ $role->name }}</option>
+                            <select name="level_id" id="form-control" class="form-select">
+                                <option value="">--Select Level--</option>
+                                @foreach ($levels as $level)
+                                    <option value="{{ $level->id }}" {{ $level->id == $user->level_id ? 'selected': '' }}>{{ $level->level_name }}</option>
                                 @endforeach
                             </select>
                         </div>

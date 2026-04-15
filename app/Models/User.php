@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Role;
+use App\Models\Level;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,11 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id',
+        'level_id',
     ];
 
-    public function role(){
-        return $this->belongsTo(Role::class, 'role_id', 'id');
+    public function level(){
+        return $this->belongsTo(Level::class, 'level_id', 'id');
     }
 
     /**

@@ -2,22 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Level;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class LevelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        User::create([
-           'name' => 'Admin',
-           'email' => 'admin@gmail.com',
-           'password' => '12345678',
-           'level_id' => 1
+        Level::insert([
+            ['level_name' => 'Administrator'],
+            ['level_name' => 'Operator'],
+            ['level_name' => 'Pimpinan'],
         ]);
     }
 }

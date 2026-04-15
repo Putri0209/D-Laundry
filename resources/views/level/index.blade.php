@@ -6,29 +6,25 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
                 <div class="mb-3" align="right">
-                    <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">Create New User</a>
+                    <a href="{{route('level.create')}}" class="btn btn-primary btn-sm">Create New Level</a>
                 </div>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Level</th>
-                            <th>Nama</th>
-                            <th>Email</th>
+                            <th>Name</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
                 <tbody>
-                    @foreach ($users as $user )
+                    @foreach ($levels as $level )
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->level->level_name}}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{$user->email}}</td>
+                        <td>{{ $level->level_name }}</td>
                         <td>
-                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="post" class="d-inline">
+                            <a href="{{ route('level.edit', $level->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form id="delete-form-{{ $level->id }}" action="{{ route('level.destroy', $level->id) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>

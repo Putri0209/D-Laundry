@@ -55,8 +55,7 @@
 
                             <div class="d-flex justify-content-center py-4">
                                 <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                    <img src="assets/img/logo.png" alt="">
-                                    <span class="d-none d-lg-block">Berita Acara App</span>
+                                    <span class="d-none d-lg-block">D'LAUNDRY</span>
                                 </a>
                             </div><!-- End Logo -->
 
@@ -103,17 +102,17 @@
                                             <button class="btn btn-primary w-100" type="submit">Login</button>
                                         </div>
                                     </form>
-
+                                    
                                 </div>
                             </div>
 
-                            <div class="credits">
+                            {{-- <div class="credits">
                                 <!-- All the links in the footer should remain intact. -->
                                 <!-- You can delete the links only if you purchased the pro version. -->
                                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                                 <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
                                 Designed by <a href="https://bootstrapmade.com/">PPKD Jakarta Pusat</a>
-                            </div>
+                            </div> --}}
 
                         </div>
                     </div>
