@@ -7,7 +7,6 @@
 
             <h5 class="card-title">Detail Transaksi</h5>
 
-            {{-- ================= ALERT ================= --}}
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -19,8 +18,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-
-            {{-- ================= HEADER ================= --}}
+            {{-- Header Detail --}}
             <div class="mb-3">
                 <p><b>Customer:</b> {{ $order->customer->customer_name }}</p>
                 <p><b>Order Code:</b> {{ $order->order_code }}</p>
@@ -38,7 +36,7 @@
 
             <hr>
 
-            {{-- ================= DETAIL ================= --}}
+            {{-- Detail --}}
             <h6>Detail Layanan</h6>
 
             <table class="table table-bordered">
@@ -46,7 +44,7 @@
                     <tr>
                         <th>Service</th>
                         <th>Qty</th>
-                        <th>Harga</th>
+                        <th>Price</th>
                         <th>Subtotal</th>
                     </tr>
                 </thead>
@@ -62,7 +60,7 @@
                 </tbody>
             </table>
 
-            {{-- ================= TOTAL ================= --}}
+            {{-- Total --}}
             <div class="mt-3">
                 <strong>Total: Rp {{ number_format($order->total) }}</strong>
             </div>
@@ -72,13 +70,13 @@
             {{-- ================= PROSES PICKUP ================= --}}
 
 @if($order->order_status == 0)
-    <h6>Proses Pickup</h6>
+    <strong>Proses Pickup</strong>
 
     <form action="{{ route('transaction.updateStatus', $order->id) }}" method="POST">
         @csrf
 
         <div class="mb-3">
-            <label>Catatan Pickup</label>
+            <label>Notes Pickup</label>
             <input type="text" name="notes" class="form-control"
                    placeholder="Contoh: Diambil oleh kakaknya">
         </div>

@@ -13,7 +13,7 @@
                         <tr>
                             <th>No</th>
                             <th>Level</th>
-                            <th>Nama</th>
+                            <th>Name</th>
                             <th>Email</th>
                             <th>Action</th>
                         </tr>
