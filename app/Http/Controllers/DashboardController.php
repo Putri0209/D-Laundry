@@ -10,7 +10,8 @@ class DashboardController extends Controller
     public function index()
     {
         $totalTransaksi = TransOrder::count();
-        $totalPendapatan = TransOrder::sum('total');
+       $totalPendapatan = TransOrder::where('payment_status', 1)
+    ->sum('total');
         $belumDiambil = TransOrder::where('order_status', 0)->count();
         $sudahDiambil = TransOrder::where('order_status', 1)->count();
 

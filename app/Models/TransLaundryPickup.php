@@ -10,5 +10,8 @@ class TransLaundryPickup extends Model
         'order_id', 'customer_id', 'pickup_date','notes'
     ];
 
-    
+    public function order()
+{
+    return $this->belongsTo(TransOrder::class, 'order_id', 'id');
+}
 }

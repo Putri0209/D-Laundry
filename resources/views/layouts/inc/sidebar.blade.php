@@ -54,13 +54,6 @@
                 </ul>
             </li><!-- End Components Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#pos-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-cart-check-fill"></i></i></i><span>POS</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
-                </a>
-
-                <ul id="pos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                      @if($level == 'Operator' || $level == 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('transaction.index') }}">
@@ -68,6 +61,16 @@
                             <span>Transaction</span>
                         </a>
                     </li>
+                    @endif
+
+@if($level == 'Operator' || $level == 'Administrator')
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="{{ route('pickup.index') }}">
+                            <i class="bi bi-bag-check-fill"></i>
+                            <span>Pickup Laundry</span>
+                        </a>
+                    </li>
+
 @endif
  @if($level == 'Pimpinan')
             <li class="nav-item">
@@ -77,8 +80,6 @@
                 </a>
             </li>
             @endif
-    </ul>
-    </li>
     </ul>
 
 </aside><!-- End Sidebar-->

@@ -37,6 +37,7 @@
                                 <th>Order Date</th>
                                 <th>Order End Date</th>
                                 <th>Status</th>
+                                <th>Payment</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -57,6 +58,13 @@
                                             <span class="badge bg-success">Sudah Diambil</span>
                                         @endif
                                     </td>
+                                    <td>
+    @if($order->payment_status == 0)
+        <span class="badge bg-danger">Belum Bayar</span>
+    @else
+        <span class="badge bg-success">Lunas</span>
+    @endif
+</td>
 
                                     <td>
                                         <a href="{{ route('transaction.show', $order->id) }}"

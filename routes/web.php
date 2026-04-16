@@ -6,6 +6,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransLaundryPickupController;
 use App\Http\Controllers\TypeOfServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,12 @@ Route::middleware(['level:administrator'])->group(function () {
 
     Route::post('/transaction/{id}/update-status', [TransactionController::class, 'updateStatus'])
         ->name('transaction.updateStatus');
+        Route::post('/transaction/{id}/pay', [TransactionController::class, 'pay'])
+    ->name('transaction.pay');
+          Route::get('pickup', [TransLaundryPickupController::class, 'index'])->name('pickup.index');
+          Route::get('pickup/{id}', [TransLaundryPickupController::class, 'show'])->name('pickup.show');
+          Route::post('/pickup/{id}/update-status', [TransLaundryPickupController::class, 'updateStatus'])
+        ->name('pickup.updateStatus');
 });
 
 
@@ -41,6 +48,12 @@ Route::middleware(['level:operator'])->group(function () {
 
     Route::post('/transaction/{id}/update-status', [TransactionController::class, 'updateStatus'])
         ->name('transaction.updateStatus');
+        Route::post('/transaction/{id}/pay', [TransactionController::class, 'pay'])
+    ->name('transaction.pay');
+    Route::post('/pickup/{id}/update-status', [TransLaundryPickupController::class, 'updateStatus'])
+        ->name('pickup.updateStatus');
+          Route::get('pickup', [TransLaundryPickupController::class, 'index'])->name('pickup.index');
+          Route::get('pickup/{id}', [TransLaundryPickupController::class, 'show'])->name('pickup.show');
 });
 
 

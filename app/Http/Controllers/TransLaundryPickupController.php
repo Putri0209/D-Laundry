@@ -3,63 +3,82 @@
 namespace App\Http\Controllers;
 
 use App\Models\TransLaundryPickup;
+use App\Models\TransOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class TransLaundryPickupController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+{
+    $query = TransOrder::with('customer')
+        ->where('order_status', 0);
+
+    if ($request->search) {
+        $search = $request->search;
+
+        $query->where(function ($q) use ($search) {
+            $q->where('order_code', 'like', "%$search%")
+              ->orWhereHas('customer', function ($q2) use ($search) {
+                  $q2->where('customer_name', 'like', "%$search%");
+              });
+        });
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    $title = 'Pickup Laundry - Belum Diambil';
+    $orders = $query->latest()->get();
+
+    return view('pickup.index', compact('title', 'orders'));
+}
+
+
+
+    public function show(string $id)
     {
-        //
+        $order = TransOrder::with(['customer', 'details.service', 'pickup'])->findOrFail($id);
+        $title = 'Detail Pickup Laundry';
+
+        return view('pickup.show', compact('title', 'order'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function updateStatus(Request $request, $id)
+{
+    $order = TransOrder::findOrFail($id);
+
+    if ($order->payment_status == 0) {
+        return redirect()->route('transaction.show', $order->id)
+            ->with('error', 'Silakan bayar terlebih dahulu');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TransLaundryPickup $transLaundryPickup)
-    {
-        //
-    }
+    DB::beginTransaction();
+    try {
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TransLaundryPickup $transLaundryPickup)
-    {
-        //
-    }
+        // update status
+        $order->update([
+            'order_status' => 1
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TransLaundryPickup $transLaundryPickup)
-    {
-        //
-    }
+        // simpan pickup
+        TransLaundryPickup::create([
+            'order_id'    => $order->id,
+            'customer_id' => $order->customer_id,
+            'pickup_date' => now(),
+            'notes'       => $request->notes
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TransLaundryPickup $transLaundryPickup)
-    {
-        //
+        DB::commit();
+
+        return redirect()->route('pickup.index')
+            ->with('success', 'Laundry berhasil diambil');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', $e->getMessage());
     }
+}
+
 }

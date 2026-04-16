@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('order_status');
             $table->double('order_pay',10,2);
             $table->double('order_change',10,2);
+            $table->tinyInteger('payment_status');
             $table->double('tax',10,2);
             $table->double('total',10,2);
             $table->timestamps();

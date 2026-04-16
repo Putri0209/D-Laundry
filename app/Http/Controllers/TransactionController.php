@@ -46,66 +46,89 @@ class TransactionController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'customer_id' => 'required',
-            'order_date' => 'required',
+public function store(Request $request)
+{
+    $request->validate([
+        'customer_id' => 'required',
+        'order_date' => 'required',
 
-            //detail
-            'service_id'    => 'required|array',
-            'service_id.*'  => 'required|exists:type_of_services,id',
-            'qty'           => 'required|array',
-            'qty.*'         => 'required|numeric|min:0.1',
-        ]);
-        DB::beginTransaction();
-        try {
-            $order_code = 'ORD-' . Carbon::now()->format('YmdHis');
+        'service_id'    => 'required|array',
+        'service_id.*'  => 'required|exists:type_of_services,id',
+        'qty'           => 'required|array',
+        'qty.*'         => 'required|numeric|min:0.1',
+    ]);
 
-            $order = TransOrder::create([
-                'customer_id'   => $request->customer_id,
-                'order_code'    => $order_code,
-                'order_date'    => $request->order_date,
-                'order_end_date' => $request->order_end_date,
-                'order_status'  => $request->order_status ?? 0,
-                'order_pay'     => $request->order_pay ?? 0,
-                'order_change'  => $request->order_change ?? 0,
-                'tax'  => $request->tax ?? 0,
+    DB::beginTransaction();
+
+    try {
+        $order_code = 'ORD-' . Carbon::now()->format('YmdHis');
+
+        // ================= CREATE ORDER (AWAL) =================
+        $order = TransOrder::create([
+            'customer_id'   => $request->customer_id,
+            'order_code'    => $order_code,
+            'order_date'    => $request->order_date,
+            'order_end_date'=> $request->order_end_date,
+            'order_status'  => 0,
+            'order_pay'     => 0,
+            'payment_status'     => 0,
+    'order_change'  => 0,
+    'tax'  => $request->tax ?? 0,
                 'total'         => 0
+        ]);
+
+        // ================= HITUNG DETAIL =================
+        $subtotal = 0;
+
+        foreach ($request->service_id as $key => $service_id) {
+
+            $service = TypeOfService::find($service_id);
+            $qty = $request->qty[$key];
+
+            $sub = $service->price * $qty;
+
+            TransOrderDetail::create([
+                'order_id'   => $order->id,
+                'service_id' => $service_id,
+                'qty'        => $qty,
+                'subtotal'   => $sub,
+                'notes'      => $request->notes[$key] ?? null,
             ]);
 
-            $total = 0;
-
-            foreach ($request->service_id as $key => $service_id) {
-
-                $service = TypeOfService::find($service_id);
-                $qty = $request->qty[$key];
-
-                $subtotal = $service->price * $qty;
-
-                TransOrderDetail::create([
-                    'order_id'   => $order->id,
-                    'service_id' => $service_id,
-                    'qty'        => $qty,
-                    'subtotal'   => $subtotal,
-                    'notes'      => $request->notes[$key] ?? null,
-                ]);
-                $total += $subtotal;
-            }
-            $order->update([
-                'total' => $total
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('transaction.index')
-                ->with('success', 'Transaksi berhasil disimpan');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return back()->withInput()->with('error', $e->getMessage());
+            $subtotal += $sub;
         }
+
+        // ================= PAJAK =================
+        $tax = $subtotal * 0.10;
+        $grandTotal = $subtotal + $tax;
+
+        // ================= PEMBAYARAN =================
+        $pay = $request->order_pay ?? 0;
+        $change = $pay - $grandTotal;
+
+        // ================= STATUS BAYAR =================
+        $payment_status = $pay >= $grandTotal ? 1 : 0;
+
+        // ================= UPDATE ORDER =================
+        $order->update([
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'total' => $grandTotal,
+            'order_pay' => $pay,
+            'order_change' => max(0, $change),
+            'payment_status' => $payment_status
+        ]);
+
+        DB::commit();
+
+        return redirect()->route('transaction.index')
+            ->with('success', 'Transaksi berhasil disimpan');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withInput()->with('error', $e->getMessage());
     }
+}
 
     public function show(string $id)
     {
@@ -127,7 +150,9 @@ class TransactionController extends Controller
 
             // update status
             $order->update([
-                'order_status' => 1
+                'order_status' => 1,
+                  'payment_status' => 1
+
             ]);
 
             // simpan ke pickup
@@ -147,5 +172,24 @@ class TransactionController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
+
+    public function pay(Request $request, $id)
+{
+    $order = TransOrder::findOrFail($id);
+
+    $pay = $request->order_pay;
+    $total = $order->total;
+
+    $change = $pay - $total;
+
+    $order->update([
+        'order_pay' => $pay,
+        'order_change' => max(0, $change),
+        'payment_status' => $pay >= $total ? 1 : 0
+    ]);
+
+    return redirect()->route('transaction.index')
+        ->with('success', 'Pembayaran berhasil');
+}
 
 }
