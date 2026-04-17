@@ -12,8 +12,8 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Name</th>
-                            <th>Action</th>
+                            <th>Nama</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -23,11 +23,11 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $level->level_name }}</td>
                         <td>
-                            <a href="{{ route('level.edit', $level->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{{ route('level.edit', $level->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
                             <form id="delete-form-{{ $level->id }}" action="{{ route('level.destroy', $level->id) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm delete-btn"><i class="bi bi-trash3"></i></button>
                             </form>
                         </td>
                     </tr>

@@ -18,7 +18,7 @@
 
             {{-- HEADER --}}
             <div class="mb-3">
-                <p><b>Customer:</b> {{ $order->customer->customer_name }}</p>
+                <p><b>Customer:</b> {{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}</p>
                 <p><b>Order Code:</b> {{ $order->order_code }}</p>
 
                 <p><b>Status Pembayaran:</b>

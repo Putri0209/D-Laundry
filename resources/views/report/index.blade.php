@@ -74,7 +74,7 @@
                         <tr>
                             <td>{{ $key + 1 }}</td>
                             <td>{{ $order->order_code }}</td>
-                            <td>{{ $order->customer->customer_name }}</td>
+                            <td>{{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}</td>
                             <td>{{ $order->order_date }}</td>
                             <td>{{ $order->order_end_date }}</td>
                             <td>Rp {{ number_format($order->total) }}</td>

@@ -12,13 +12,13 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="name" class="form-label">Level Name</label>
+                            <label for="name" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="level_name" name="level_name"
                                 value="{{ $level->level_name }}" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>

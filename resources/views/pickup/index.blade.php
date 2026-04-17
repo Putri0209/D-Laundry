@@ -35,7 +35,7 @@
                         <form method="GET" action="{{ route('pickup.index') }}">
                             <div class="input-group">
                                 <input type="text" name="search" class="form-control"
-                                    placeholder="Cari nama customer / kode order..."
+                                    placeholder="Cari nama pelanggan / kode order..."
                                     value="{{ request('search') }}">
                                 <button type="submit" class="btn btn-primary">Cari</button>
                                 <a href="{{ route('pickup.index') }}" class="btn btn-secondary">Reset</a>
@@ -60,7 +60,7 @@
                             @forelse ($orders as $order)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $order->customer->customer_name }}</td>
+                                    <td>{{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}</td>
                                     <td>
                                         <span class="fw-bold">{{ $order->order_code }}</span>
                                     </td>

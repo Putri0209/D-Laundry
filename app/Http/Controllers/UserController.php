@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $title = "Data Users";
+        $title = "Data Pengguna";
         $users = User::with('level')->get();
 
         return view('user.index', compact('title', 'users'));
@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $title = "Create New User";
+        $title = "Tambah Pengguna Baru";
         $levels = Level::all();
         return view('user.create', compact('title','levels'));
     }
@@ -47,7 +47,7 @@ class UserController extends Controller
             'password' => $request->password,
             'level_id' => $request->level_id,
         ]);
-        Alert::success('Success', 'User created successfully');
+        Alert::success('Success', 'Pengguna berhasil dibuat');
         return redirect()->route('user.index');
     }
 
@@ -64,7 +64,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Edit User";
+        $title = "Ubah Pengguna";
         $user = User::find($id);
         $levels = Level::all();
         return view('user.edit', compact('title', 'user','levels'));
@@ -88,7 +88,7 @@ class UserController extends Controller
             $user->password = $request->password;
         }
         $user->save();
-        Alert::success('Success', 'User updated successfully');
+        Alert::success('Success', 'Pengguna berhasil diubah');
         return redirect()->route('user.index');
 
     }
@@ -101,7 +101,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        Alert::success('Success', 'User deleted successfully');
+        Alert::success('Success', 'Pengguna berhasil dihapus');
         return redirect()->route('user.index');
     }
 }

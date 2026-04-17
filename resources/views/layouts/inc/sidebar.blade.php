@@ -31,7 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('user.index') }}">
                             <i class="bi bi-people-fill"></i>
-                            <span>Users</span>
+                            <span>Pengguna</span>
                         </a>
                     </li>
                     @endif
@@ -39,7 +39,7 @@
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('customer.index') }}">
                             <i class="bi bi-person-lines-fill"></i>
-                            <span>Customer</span>
+                            <span>Pelanggan</span>
                         </a>
                     </li>
                     @endif
@@ -47,7 +47,7 @@
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('service.index') }}">
                             <i class="bi bi-list"></i>
-                            <span>Type Service</span>
+                            <span>Layanan</span>
                         </a>
                     </li>
 @endif
@@ -58,7 +58,7 @@
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('transaction.index') }}">
                             <i class="bi bi-receipt-cutoff"></i>
-                            <span>Transaction</span>
+                            <span>Transaksi</span>
                         </a>
                     </li>
                     @endif
@@ -76,7 +76,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('report.index') }}">
                     <i class="bi bi-graph-up-arrow"></i>
-                    <span>Report</span>
+                    <span>Laporan</span>
                 </a>
             </li>
             @endif

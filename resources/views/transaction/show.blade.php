@@ -9,13 +9,13 @@
 {{-- ================= HEADER (DISABLE) ================= --}}
 <div class="row">
     <div class="col-md-6 mb-3">
-        <label>Customer</label>
+        <label>Pelanggan</label>
         <input type="text" class="form-control"
-            value="{{ $order->customer->customer_name }}" disabled>
+            value="{{ $order->customer_id ? $order->customer->customer_name : $order->customer_name . ' (Non-Member)' }}" disabled>
     </div>
 
     <div class="col-md-6 mb-3">
-        <label>Order Date</label>
+        <label>Tanggal Laundry</label>
         <input type="date" class="form-control"
             value="{{ $order->order_date }}" disabled>
     </div>
@@ -29,7 +29,7 @@
 <table class="table table-bordered" id="table-detail">
     <thead>
         <tr>
-            <th>Service</th>
+            <th>Layanan</th>
             <th>Qty</th>
             <th>Harga</th>
             <th>Subtotal</th>
@@ -70,12 +70,22 @@
         <p>Subtotal</p>
     </div>
     <div class="col-md-6 text-end">
-       Rp {{ number_format($order->details->sum('subtotal')) }}
+       Rp {{ number_format($order->subtotal > 0 ? $order->subtotal : $order->details->sum('subtotal')) }}
     </div>
+
+    @if($order->discount_nominal > 0)
+    {{-- DISCOUNT --}}
+    <div class="col-md-6">
+        <p>Diskon ({{ $order->discount_percent }}%)</p>
+    </div>
+    <div class="col-md-6 text-end text-danger">
+        <p>Rp {{ number_format($order->discount_nominal) }}</p>
+    </div>
+    @endif
 
     {{-- TAX --}}
     <div class="col-md-6">
-        <p>Tax (10%)</p>
+        <p>Pajak (10%)</p>
     </div>
     <div class="col-md-6 text-end">
         <p>Rp {{ number_format($order->tax) }}</p>
@@ -120,10 +130,10 @@
 </form>
 
 @else
-<div class="alert alert-success mt-3">
-    <b>Lunas</b><br>
-    Bayar: Rp {{ number_format($order->order_pay) }}<br>
-    Kembalian: Rp {{ number_format($order->order_change) }}
+<div class="alert alert-success mt-3 ">
+    <b>LUNAS</b><br>
+    {{-- Bayar: Rp {{ number_format($order->order_pay) }}<br>
+    Kembalian: Rp {{ number_format($order->order_change) }} --}}
 </div>
 @endif
 
@@ -143,6 +153,16 @@ document.getElementById('input-pay')?.addEventListener('input', function() {
 
     changeInput.value = formatRupiah(Math.max(0, change));
     changeInput.style.color = change < 0 ? 'red' : 'green';
+});
+
+document.querySelector('form')?.addEventListener('submit', function(e) {
+    const total = parseInt(document.getElementById('input-total').value) || 0;
+    const pay = parseInt(document.getElementById('input-pay').value) || 0;
+
+    if (pay < total) {
+        e.preventDefault();
+        alert('Pembayaran kurang! Nominal yang dibayarkan tidak boleh kurang dari total tagihan.');
+    }
 });
 </script>
 @endsection

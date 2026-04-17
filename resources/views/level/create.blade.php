@@ -11,12 +11,12 @@
                     <form action="{{ route('level.store') }}" method="post">
                         @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Level Name</label>
+                            <label for="name" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="level_name" name="level_name"
-                                placeholder="Enter Level Name" required value="{{ old('level_name')}}">
+                                placeholder="Masukkan nama level" required value="{{ old('level_name')}}">
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>

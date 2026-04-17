@@ -12,10 +12,10 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Customer Name</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Action</th>
+                            <th>Nama Pelanggan</th>
+                            <th>No Hp</th>
+                            <th>Alamat</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -27,11 +27,11 @@
                         <td>{{ $customer->phone }}</td>
                         <td>{{ $customer->address }}</td>
                         <td>
-                            <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
                             <form id="delete-form-{{ $customer->id }}" action="{{ route('customer.destroy', $customer->id) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm delete-btn"><i class="bi bi-trash3"></i></button>
                             </form>
                         </td>
                     </tr>

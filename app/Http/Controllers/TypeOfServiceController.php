@@ -41,7 +41,7 @@ class TypeOfServiceController extends Controller
             'price' => $request->price,
             'description' => $request->description,
         ]);
-        Alert::success('Success', 'Type of Service created successfully');
+        Alert::success('Success', 'Layanan berhasil dibuat');
         return redirect()->route('service.index');
     }
 
@@ -58,7 +58,7 @@ class TypeOfServiceController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Edit Type of Service";
+        $title = "Ubah Layanan";
         $service = TypeOfService::find($id);
         return view('service.edit', compact('title', 'service'));
     }
@@ -80,7 +80,7 @@ class TypeOfServiceController extends Controller
             $service->price = $request->price;
             $service->description = $request->description;
             $service->save();
-             Alert::success('Success', 'Type of Service updated successfully');
+             Alert::success('Success', 'Layanan berhasil diubah');
         return redirect()->route('service.index');
     }
 
@@ -92,7 +92,7 @@ class TypeOfServiceController extends Controller
         $service = TypeOfService::find($id);
         $service->delete();
 
-        Alert::success('Success', 'Type of Service deleted successfully');
+        Alert::success('Success', 'Layanan berhasil dihapus');
         return redirect()->route('service.index');
     }
 }

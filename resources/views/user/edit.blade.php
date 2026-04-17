@@ -12,16 +12,16 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="name" class="form-label">Role</label>
+                            <label for="name" class="form-label">Level</label>
                             <select name="level_id" id="form-control" class="form-select">
-                                <option value="">--Select Level--</option>
+                                <option value="">--Pilih Level--</option>
                                 @foreach ($levels as $level)
                                     <option value="{{ $level->id }}" {{ $level->id == $user->level_id ? 'selected': '' }}>{{ $level->level_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Nama</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 value="{{ $user->name }}" required>
                         </div>
@@ -33,10 +33,10 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" value="">
-                            <small class="text-secondary">Leave blank if you don't want to change the password.</small>
+                            <small class="text-secondary">Abaikan jika tidak ingin mengubah password.</small>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>

@@ -29,7 +29,7 @@ class TransLaundryPickupController extends Controller
         });
     }
 
-    $title = 'Pickup Laundry - Belum Diambil';
+    $title = 'Pickup Laundry';
     $orders = $query->latest()->get();
 
     return view('pickup.index', compact('title', 'orders'));

@@ -87,7 +87,7 @@
                         @forelse ($latestOrders as $order)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $order->customer->customer_name }}</td>
+                            <td>{{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}</td>
                             <td>{{ $order->order_code }}</td>
                             <td>{{ $order->order_date }}</td>
                             <td>

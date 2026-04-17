@@ -12,23 +12,23 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="" class="form-label">Customer Name</label>
+                            <label for="" class="form-label">Nama Pelanggan</label>
                             <input type="text" class="form-control" id="customer_name" name="customer_name"
                                 value="{{ $customer->customer_name }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Phone</label>
+                            <label for="" class="form-label">No Hp</label>
                             <input type="number" class="form-control" id="phone" name="phone"
                                 value="{{ $customer->phone }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Address</label>
+                            <label for="" class="form-label">Alamat</label>
                             <input type="text" class="form-control" id="address" name="address"
                                 value="{{ $customer->address }}" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
                     </form>
                 </div>
             </div>

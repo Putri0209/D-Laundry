@@ -30,7 +30,7 @@ class TransactionController extends Controller
                     });
             });
         }
-        $title = 'Transaction Order';
+        $title = 'Transaksi Order';
         $orders = $query->latest()->get();
 
         return view('transaction.index', compact('title', 'orders'));
@@ -39,7 +39,7 @@ class TransactionController extends Controller
 
     public function create()
     {
-        $title = "Create New Transaction";
+        $title = "Tambah Transaksi Baru";
         $customers = Customer::all();
         $services = TypeOfService::all();
         return view('transaction.create', compact('title', 'customers', 'services'));
@@ -49,13 +49,17 @@ class TransactionController extends Controller
 public function store(Request $request)
 {
     $request->validate([
-        'customer_id' => 'required',
-        'order_date' => 'required',
-
+        'customer_type' => 'required|in:member,baru',
+        'customer_id'   => 'required_if:customer_type,member',
+        'customer_name' => 'required_if:customer_type,baru',
+        'order_date'    => 'required',
         'service_id'    => 'required|array',
         'service_id.*'  => 'required|exists:type_of_services,id',
         'qty'           => 'required|array',
         'qty.*'         => 'required|numeric|min:0.1',
+    ], [
+        'customer_id.required_if' => 'Pelanggan harus dipilih.',
+        'customer_name.required_if' => 'Nama pelanggan harus diisi.'
     ]);
 
     DB::beginTransaction();
@@ -63,28 +67,89 @@ public function store(Request $request)
     try {
         $order_code = 'ORD-' . Carbon::now()->format('YmdHis');
 
+        $customer_id = null;
+        $customer_name = null;
+        $customer_phone = null;
+        $customer_address = null;
+        $is_new_member = false;
+
+        if ($request->customer_type == 'member') {
+            $customer_id = $request->customer_id;
+
+            $hasTransaction = TransOrder::where('customer_id', $customer_id)->exists();
+            if (!$hasTransaction) {
+                $is_new_member = true;
+            }
+        } else {
+            $customer_name = $request->customer_name;
+            $customer_phone = $request->customer_phone;
+            $customer_address = $request->customer_address;
+
+            if ($request->is_new_member) {
+                // Simpan ke Master Customer
+                $newCustomer = Customer::create([
+                    'customer_name' => $customer_name,
+                    'phone' => $customer_phone ?? '',
+                    'address' => $customer_address
+                ]);
+                $customer_id = $newCustomer->id;
+                $is_new_member = true;
+            }
+        }
+
+        if (!empty($request->voucher_code)) {
+            $today = Carbon::today();
+            $alreadyUsed = false;
+
+            if ($customer_id && !$is_new_member) {
+                $alreadyUsed = TransOrder::where('customer_id', $customer_id)
+                                ->whereNotNull('voucher_code')
+                                ->whereDate('created_at', $today)
+                                ->exists();
+            } else if (!$is_new_member && !empty($customer_phone)) {
+                $alreadyUsed = TransOrder::where('customer_phone', $customer_phone)
+                                ->whereNotNull('voucher_code')
+                                ->whereDate('created_at', $today)
+                                ->exists();
+            } else if (!$is_new_member && !empty($customer_name)) {
+                $alreadyUsed = TransOrder::where('customer_name', $customer_name)
+                                ->whereNotNull('voucher_code')
+                                ->whereDate('created_at', $today)
+                                ->exists();
+            }
+
+            if ($alreadyUsed) {
+                throw new \Exception('Gagal: Pelanggan ini sudah menggunakan voucher hari ini, batas pemakaian adalah 1x per hari.');
+            }
+        }
+
         // ================= CREATE ORDER (AWAL) =================
         $order = TransOrder::create([
-            'customer_id'   => $request->customer_id,
+            'customer_id'   => $customer_id,
+            'customer_name' => $customer_name,
+            'customer_phone'=> $customer_phone,
+            'customer_address' => $customer_address,
+            'is_new_member' => $is_new_member,
             'order_code'    => $order_code,
             'order_date'    => $request->order_date,
             'order_end_date'=> $request->order_end_date,
             'order_status'  => 0,
             'order_pay'     => 0,
-            'payment_status'     => 0,
-    'order_change'  => 0,
-    'tax'  => $request->tax ?? 0,
-                'total'         => 0
+            'payment_status'=> 0,
+            'order_change'  => 0,
+            'tax'           => 0,
+            'subtotal'      => 0,
+            'discount_percent' => 0,
+            'discount_nominal' => 0,
+            'voucher_code'  => $request->voucher_code,
+            'total'         => 0
         ]);
 
-        // ================= HITUNG DETAIL =================
         $subtotal = 0;
 
         foreach ($request->service_id as $key => $service_id) {
-
             $service = TypeOfService::find($service_id);
             $qty = $request->qty[$key];
-
             $sub = $service->price * $qty;
 
             TransOrderDetail::create([
@@ -98,20 +163,34 @@ public function store(Request $request)
             $subtotal += $sub;
         }
 
-        // ================= PAJAK =================
-        $tax = $subtotal * 0.10;
-        $grandTotal = $subtotal + $tax;
+        $discount_percent = 0;
+        if ($is_new_member) {
+            $discount_percent += 5;
+        }
+        if (!empty($request->voucher_code)) {
+            $discount_percent += 10;
+        }
 
-        // ================= PEMBAYARAN =================
+        // $subtotalAfterDiscount = $subtotal - $discount_nominal;
+
+        $tax = round($subtotal* 0.10);
+        $subtotalWithTax = $subtotal + $tax;
+        $discount_nominal = round($subtotal * ($discount_percent / 100));
+        $grandTotal = $subtotalWithTax - $discount_nominal;
+
         $pay = $request->order_pay ?? 0;
-        $change = $pay - $grandTotal;
 
-        // ================= STATUS BAYAR =================
+        if ($pay < $grandTotal) {
+            throw new \Exception('Pembayaran kurang! Anda harus memasukkan nominal pembayaran minimal sebesar total tagihan.');
+        }
+
+        $change = $pay - $grandTotal;
         $payment_status = $pay >= $grandTotal ? 1 : 0;
 
-        // ================= UPDATE ORDER =================
         $order->update([
             'subtotal' => $subtotal,
+            'discount_percent' => $discount_percent,
+            'discount_nominal' => $discount_nominal,
             'tax' => $tax,
             'total' => $grandTotal,
             'order_pay' => $pay,
@@ -179,6 +258,10 @@ public function store(Request $request)
 
     $pay = $request->order_pay;
     $total = $order->total;
+
+    if ($pay < $total) {
+        return back()->with('error', 'Pembayaran tidak mencukupi! Minimal sebesar total tagihan.');
+    }
 
     $change = $pay - $total;
 

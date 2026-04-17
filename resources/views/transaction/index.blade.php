@@ -9,7 +9,7 @@
 
                     <div class="mb-3 text-end">
                         <a href="{{ route('transaction.create') }}" class="btn btn-primary btn-sm">
-                            Create New Transaction
+                            Tambah Transaksi Baru
                         </a>
                     </div>
 
@@ -17,7 +17,7 @@
                         <form method="GET" action="{{ route('transaction.index') }}">
                             <div class="input-group">
                                 <input type="text" name="search" class="form-control"
-                                    placeholder="Search customer / order code..." value="{{ request('search') }}">
+                                    placeholder="Cari nama pelanggan / kode order..." value="{{ request('search') }}">
 
                                 <button type="submit" class="">Search</button>
 
@@ -32,12 +32,12 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Customer</th>
-                                <th>Order Code</th>
-                                <th>Order Date</th>
-                                <th>Order End Date</th>
+                                <th>Pelanggan</th>
+                                <th>Kode Order</th>
+                                <th>Tanggal Laundry</th>
+                                <th>Estimasi Selesai</th>
                                 <th>Status</th>
-                                <th>Payment</th>
+                                <th>Pembayaran</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -46,7 +46,7 @@
                             @forelse ($orders as $order)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $order->customer->customer_name }}</td>
+                                    <td>{{ $order->customer_id ? $order->customer->customer_name : $order->customer_name . ' (Non-Member)' }}</td>
                                     <td>{{ $order->order_code }}</td>
                                     <td>{{ $order->order_date }}</td>
                                     <td>{{ $order->order_end_date }}</td>
@@ -69,7 +69,7 @@
                                     <td>
                                         <a href="{{ route('transaction.show', $order->id) }}"
                                             class="btn btn-primary btn-sm">
-                                            Detail
+                                            <i class="bi bi-pencil-square"></i>
                                         </a>
 
                                         <form action="{{ route('transaction.destroy', $order->id) }}" method="POST"
@@ -79,7 +79,7 @@
 
                                             <button type="submit" onclick="return confirm('Yakin hapus data?')"
                                                 class="btn btn-danger btn-sm">
-                                                Delete
+                                                <i class="bi bi-trash3"></i>
                                             </button>
                                         </form>
                                     </td>

@@ -27,11 +27,11 @@
                         <td>Rp {{ number_format($service->price,2, ',', '.')}}</td>
                         <td>{{ $service->description }}</td>
                         <td>
-                            <a href="{{ route('service.edit', $service->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="{{ route('service.edit', $service->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
                             <form id="delete-form-{{ $service->id }}" action="{{ route('service.destroy', $service->id) }}" method="post" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm delete-btn"><i class="bi bi-trash3"></i></button>
                             </form>
                         </td>
                     </tr>

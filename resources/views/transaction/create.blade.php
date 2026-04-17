@@ -27,21 +27,23 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label>Order Code</label>
-                                <input type="text" class="form-control" value="ORD-{{ now()->format('YmdHis') }}"
-                                    readonly>
+                                <label class="d-block fw-bold">Tipe Pelanggan</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="customer_type" id="type_member"
+                                        value="member" checked onchange="toggleCustomerType()">
+                                    <label class="form-check-label" for="type_member">Member Terdaftar</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="customer_type" id="type_baru"
+                                        value="baru" onchange="toggleCustomerType()">
+                                    <label class="form-check-label" for="type_baru">Data Baru / Non-Member</label>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label>Order Date</label>
-                                <input type="date" name="order_date" class="form-control"
-                                    value="{{ old('order_date') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label>Customer</label>
-                                <select name="customer_id" class="form-control">
-                                    <option value="">--Select Customer--</option>
+
+                            <div class="mb-3" id="section_member">
+                                <label>Pilih Pelanggan (Member)</label>
+                                <select name="customer_id" class="form-control" onchange="recalcTotal()">
+                                    <option value="">--Pilih Pelanggan--</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}"
                                             {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
@@ -50,112 +52,163 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="mb-3 d-none" id="section_baru">
+                                <label>Input Data Pelanggan</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <input type="text" name="customer_name" class="form-control mb-2"
+                                            placeholder="Nama Pelanggan" value="{{ old('customer_name') }}">
+                                        <input type="text" name="customer_phone" class="form-control mb-2"
+                                            placeholder="No. Telepon" value="{{ old('customer_phone') }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <textarea name="customer_address" class="form-control mb-2" placeholder="Alamat">{{ old('customer_address') }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" name="is_new_member" id="is_new_member"
+                                        value="1" onchange="recalcTotal()">
+                                    <label class="form-check-label fw-bold text-success" for="is_new_member">
+                                        Daftar sebagai Member Baru (Diskon 5%)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
                             <div class="mb-3">
-                                <label>Order End Date</label>
+                                <label>Tanggal Laundry</label>
+                                <input type="date" name="order_date" class="form-control"
+                                    value="{{ old('order_date') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label>Estimasi Selesai</label>
                                 <input type="date" name="order_end_date" class="form-control"
                                     value="{{ old('order_end_date') }}">
-                            </div>
+                            </div> </div>
                         </div>
-                    </div>
 
-                    <hr>
-                    <h6>Detail Layanan</h6>
+                        <hr>
+                        <h6>Detail Layanan</h6>
 
-                    {{-- Tabel Detail --}}
-                    <table class="table" id="table-detail">
-                        <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th>Price</th>
-                                <th>Qty (Kg)</th>
-                                <th class="text-end">Subtotal</th>
-                                <th>Notes</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <select name="service_id[]" class="form-control service-select">
-                                        <option value="">--Select Service--</option>
-                                        @foreach ($services as $service)
-                                            <option value="{{ $service->id }}" data-price="{{ $service->price }}">
-                                                {{ $service->service_name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control price-display" readonly placeholder="Rp 0"
-                                        style="background:#f8f9fa; min-width:120px">
-                                </td>
-                                <td>
-                                    <input type="number" name="qty[]" class="form-control qty-input" min="0.1"
-                                        step="0.1" value="1" style="width:80px">
-                                </td>
-                                <td class="text-end">
-                                    <span class="subtotal-display fw-bold text-success">Rp 0</span>
-                                    <input type="hidden" name="subtotal[]" class="subtotal-hidden" value="0">
-                                </td>
-                                <td>
-                                    <input type="text" name="notes[]" class="form-control">
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm btn-remove">✕</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <button type="button" id="btn-add" class="btn btn-outline-primary btn-sm mb-4">
-                        + Add Service
-                    </button>
-
-                    <hr>
-
-                    {{-- Pembayaran --}}
-                    <div class="row">
-                        <div class="col-md-5 offset-md-7">
-                            <table class="table table-sm">
+                        {{-- Tabel Detail --}}
+                        <table class="table" id="table-detail">
+                            <thead>
                                 <tr>
-                                    <td class="fw-semibold">Subtotal</td>
-                                    <td class="text-end fw-bold fs-5 text-success" id="display-subtotal">Rp 0</td>
+                                    <th>Layanan</th>
+                                    <th>Harga</th>
+                                    <th>Qty (Kg)</th>
+                                    <th class="text-end">Subtotal</th>
+                                    <th>Catatan</th>
+                                    <th></th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
-                                    <td class="fw-semibold">Tax (10%)</td>
-                                    <td class="text-end fw-bold fs-5 text-success" id="display-tax">Rp 0</td>
+                                    <td>
+                                        <select name="service_id[]" class="form-control service-select">
+                                            <option value="">--Pilih Layanan--</option>
+                                            @foreach ($services as $service)
+                                                <option value="{{ $service->id }}" data-price="{{ $service->price }}">
+                                                    {{ $service->service_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control price-display" readonly placeholder="Rp 0"
+                                            style="background:#f8f9fa; min-width:120px">
+                                    </td>
+                                    <td>
+                                        <input type="number" name="qty[]" class="form-control qty-input" min="0.1"
+                                            step="0.1" value="1" style="width:80px">
+                                    </td>
+                                    <td class="text-end">
+                                        <span class="subtotal-display fw-bold text-success">Rp 0</span>
+                                        <input type="hidden" name="subtotal[]" class="subtotal-hidden" value="0">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="notes[]" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm btn-remove">✕</button>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td class="fw-semibold">Total</td>
-                                    <td class="text-end fw-bold fs-5 text-success" id="display-grandtotal">Rp 0</td>
-                                </tr>
-                            </table>
+                            </tbody>
+                        </table>
 
-                            <input type="hidden" name="subtotal" id="input-subtotal">
-                            <input type="hidden" name="tax" id="input-tax">
-                            <input type="hidden" name="total" id="input-grandtotal">
-
-                            <div class="mb-3">
-                                <label class="fw-semibold">Payment (Rp)</label>
-                                <input type="number" name="order_pay" id="input-pay" class="form-control form-control-lg"
-                                    min="0" placeholder="0" value="{{ old('order_pay', 0) }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="fw-semibold">Change (Rp)</label>
-                                <input type="number" name="order_change" id="input-change"
-                                    class="form-control form-control-lg fw-bold" readonly value="0"
-                                    style="background:#f4faf6">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            Save
+                        <button type="button" id="btn-add" class="btn btn-outline-primary btn-sm mb-4">
+                            + Tambah Layanan
                         </button>
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
-                    </div>
+
+                        <hr>
+
+                        <div class="row mb-4">
+                            <div class="col-md-5">
+                                <label class="fw-semibold">Kode Voucher (Opsional)</label>
+                                <div class="input-group">
+                                    <input type="text" name="voucher_code" id="voucher_code" class="form-control"
+                                        placeholder="Masukkan kode voucher..." oninput="recalcTotal()">
+                                </div>
+                                <small class="text-muted">Setiap voucher valid diisi memberikan diskon 10%.</small>
+                            </div>
+                        </div>
+
+                        {{-- Pembayaran --}}
+                        <div class="row">
+                            <div class="col-md-5 offset-md-7">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td class="fw-semibold">Subtotal</td>
+                                        <td class="text-end fw-bold fs-5 text-dark" id="display-subtotal">Rp 0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">Pajak (10%)</td>
+                                        <td class="text-end fw-bold fs-5 text-dark" id="display-tax">Rp 0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">Diskon (<span id="discount-percent-label">0</span>%)</td>
+                                        <td class="text-end fw-bold fs-5 text-danger" id="display-discount">Rp 0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">Total</td>
+                                        <td class="text-end fw-bold fs-5 text-success" id="display-grandtotal">Rp 0</td>
+                                    </tr>
+                                </table>
+
+                                <input type="hidden" name="subtotal" id="input-subtotal">
+                                <input type="hidden" name="discount_percent" id="input-discount-percent"
+                                    value="0">
+                                <input type="hidden" name="discount_nominal" id="input-discount-nominal"
+                                    value="0">
+                                <input type="hidden" name="tax" id="input-tax">
+                                <input type="hidden" name="total" id="input-grandtotal">
+
+                                <div class="mb-3">
+                                    <label class="fw-semibold">Bayar (Rp)</label>
+                                    <input type="number" name="order_pay" id="input-pay"
+                                        class="form-control form-control-lg" min="0" placeholder="0"
+                                        value="{{ old('order_pay', 0) }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="fw-semibold">Kembalian (Rp)</label>
+                                    <input type="number" name="order_change" id="input-change"
+                                        class="form-control form-control-lg fw-bold" readonly value="0"
+                                        style="background:#f4faf6">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                Simpan
+                            </button>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
+                        </div>
 
                 </form>
             </div>
@@ -169,6 +222,14 @@
                 "{{ $service->id }}": {{ $service->price }},
             @endforeach
         };
+
+        const newMemberCustomers = [
+            @foreach ($customers as $customer)
+                @if(!\App\Models\TransOrder::where('customer_id', $customer->id)->exists())
+                    "{{ $customer->id }}",
+                @endif
+            @endforeach
+        ];
 
         function formatRupiah(angka) {
             return 'Rp ' + Number(angka).toLocaleString('id-ID');
@@ -202,18 +263,60 @@
                 subtotal += parseInt(row.querySelector('.subtotal-hidden').value) || 0;
             });
 
+            // Calculate Discount
+            let discountPercent = 0;
+
+            const isBaru = document.getElementById('type_baru').checked;
+            const isMember = document.getElementById('type_member').checked;
+            const isNewMember = document.getElementById('is_new_member').checked;
+            
+            if (isBaru && isNewMember) {
+                discountPercent += 5;
+            } else if (isMember) {
+                const selectedCustomerId = document.querySelector('select[name="customer_id"]').value;
+                if (newMemberCustomers.includes(selectedCustomerId)) {
+                    discountPercent += 5;
+                }
+            }
+
+            const voucherCode = document.getElementById('voucher_code').value.trim();
+            if (voucherCode !== '') {
+                discountPercent += 10;
+            }
+
             const tax = Math.round(subtotal * 0.10);
-            const grandTotal = subtotal + tax;
+            const subtotalWithTax = subtotal + tax;
+            const discountNominal = Math.round(subtotalWithTax * (discountPercent / 100));
+
+            const grandTotal = subtotalWithTax - discountNominal;
 
             document.getElementById('display-subtotal').textContent = formatRupiah(subtotal);
+            document.getElementById('display-discount').textContent = '' + formatRupiah(discountNominal);
+            document.getElementById('discount-percent-label').textContent = discountPercent;
             document.getElementById('display-tax').textContent = formatRupiah(tax);
             document.getElementById('display-grandtotal').textContent = formatRupiah(grandTotal);
 
             document.getElementById('input-subtotal').value = subtotal;
+            document.getElementById('input-discount-percent').value = discountPercent;
+            document.getElementById('input-discount-nominal').value = discountNominal;
             document.getElementById('input-tax').value = tax;
             document.getElementById('input-grandtotal').value = grandTotal;
 
             calcChange();
+        }
+
+        function toggleCustomerType() {
+            const isMember = document.getElementById('type_member').checked;
+            if (isMember) {
+                document.getElementById('section_member').classList.remove('d-none');
+                document.getElementById('section_baru').classList.add('d-none');
+                // uncheck new member option
+                document.getElementById('is_new_member').checked = false;
+            } else {
+                document.getElementById('section_member').classList.add('d-none');
+                document.getElementById('section_baru').classList.remove('d-none');
+            }
+            recalcTotal();
         }
 
         // Kembalian
@@ -223,8 +326,14 @@
             const change = pay - grandTotal;
 
             const changeInput = document.getElementById('input-change');
-            changeInput.value = Math.max(0, change);
-            changeInput.style.color = change < 0 ? '#dc2626' : '#16a34a';
+            changeInput.value = change;
+            if (change < 0) {
+                changeInput.style.color = '#dc2626'; // merah
+                submitBtn.disabled = true; // disable kalau kurang
+            } else {
+                changeInput.style.color = '#16a34a'; // hijau
+                submitBtn.disabled = false;
+            }
         }
 
         // Select - qty
@@ -270,6 +379,16 @@
                     e.target.closest('tr').remove();
                     recalcTotal();
                 }
+            }
+        });
+        // Validasi Pembayaran saat Submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const grandTotal = parseInt(document.getElementById('input-grandtotal').value) || 0;
+            const pay = parseInt(document.getElementById('input-pay').value) || 0;
+
+            if (pay < grandTotal) {
+                e.preventDefault();
+                alert('Pembayaran kurang! Anda harus memasukkan nominal pembayaran minimal sebesar total tagihan.');
             }
         });
     </script>

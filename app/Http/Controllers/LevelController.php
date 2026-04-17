@@ -23,7 +23,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        $title = "Create New Level";
+        $title = "Tambah Level";
         return view('level.create', compact('title'));
     }
 
@@ -39,7 +39,7 @@ class LevelController extends Controller
         Level::create([
             'level_name' => $request->level_name,
         ]);
-        Alert::success('Success', 'Level created successfully');
+        Alert::success('Success', 'Level berhasil dibuat');
         return redirect()->route('level.index');
     }
 
@@ -72,7 +72,7 @@ class LevelController extends Controller
         $level = Level::find($id);
         $level->level_name = $request->level_name;
         $level->save();
-        Alert::success('Success', 'Level updated successfully');
+        Alert::success('Success', 'Level berhasil diubah');
         return redirect()->route('level.index');
 
     }
@@ -85,7 +85,7 @@ class LevelController extends Controller
         $level = Level::find($id);
         $level->delete();
 
-        Alert::success('Success', 'Level deleted successfully');
+        Alert::success('Success', 'Level berhasil dihapus');
         return redirect()->route('level.index');
     }
 }
