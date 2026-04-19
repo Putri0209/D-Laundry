@@ -11,12 +11,25 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $title = "Data Customer";
-        $customers = Customer::orderBy('id','DESC')->get();
-        return view('customer.index', compact('title', 'customers'));
+   public function index(Request $request)
+{
+    $query = Customer::query();
+
+    if ($request->search) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('customer_name', 'like', "%$search%")
+              ->orWhere('phone', 'like', "%$search%")
+              ->orWhere('address', 'like', "%$search%");
+        });
     }
+
+    $perpage   = in_array($request->perpage, [10, 20, 30]) ? $request->perpage : 10;
+    $title     = 'Data Pelanggan';
+    $customers = $query->latest()->paginate($perpage);
+
+    return view('customer.index', compact('title', 'customers'));
+}
 
     /**
      * Show the form for creating a new resource.

@@ -38,36 +38,4 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect()->to('/');
     }
-
-    public function redirect()
-    {
-        return Socialite::driver('google')->redirect();
-    }
-
-    public function callbackGoogle()
-    {
-        try {
-            $google_user = Socialite::driver('google')->user();
-
-            $user = User::where('google_id', $google_user->getId())->first();
-            if (empty($user)) {
-                $new_user = User::create([
-                    'name' => $google_user->getName(),
-                    'email' => $google_user->getEmail(),
-                    'google_id' => $google_user->getId(),
-                    'role_id' => 2,
-                    
-                ]);
-
-                Auth::login($new_user);
-
-                return redirect()->intended('dashboard');
-            } else {
-                Auth::login($user);
-                return redirect()->intended('dashboard');
-            }
-        } catch (\Throwable $th) {
-            dd('Sesuatu ada yang salah!' . $th->getMessage());
-        }
-    }
 }

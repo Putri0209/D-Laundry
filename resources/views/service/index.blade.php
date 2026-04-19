@@ -5,8 +5,23 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
-                <div class="mb-3" align="right">
-                    <a href="{{route('service.create')}}" class="btn btn-primary btn-sm">Create New Service</a>
+                <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
+                    <form method="GET" action="{{ route('service.index') }}" class="d-flex gap-2 flex-grow-1" style="max-width:400px">
+                        <input type="text" name="search" class="form-control form-control-sm"
+                            placeholder="Cari nama layanan..."
+                            value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary btn-sm px-3">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        @if(request('search'))
+                            <a href="{{ route('service.index') }}" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                        @endif
+                    </form>
+                    <a href="{{ route('service.create') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-lg me-1"></i>Tambah Layanan
+                    </a>
                 </div>
                 <table class="table table-bordered table-striped">
                     <thead>
