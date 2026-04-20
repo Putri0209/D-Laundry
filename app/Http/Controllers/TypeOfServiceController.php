@@ -8,8 +8,16 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class TypeOfServiceController extends Controller
 {
-   public function index()
+   public function index(Request $request)
     {
+        $query = TypeOfService::query();
+
+         if ($request->search) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('service_name', 'like', "%$search%");
+        });
+    }
         $title = "Type of Service";
         $services = TypeOfService::orderBy('id','DESC')->get();
         return view('service.index', compact('title', 'services'));

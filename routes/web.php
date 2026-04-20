@@ -33,6 +33,7 @@ Route::middleware(['level:administrator'])->group(function () {
         ->name('transaction.updateStatus');
         Route::post('/transaction/{id}/pay', [TransactionController::class, 'pay'])
     ->name('transaction.pay');
+    Route::get('trans-orders/{transOrder}/print', [TransactionController::class, 'print'])->name('trans-orders.print');
           Route::get('pickup', [TransLaundryPickupController::class, 'index'])->name('pickup.index');
           Route::get('pickup/{id}', [TransLaundryPickupController::class, 'show'])->name('pickup.show');
           Route::post('/pickup/{id}/update-status', [TransLaundryPickupController::class, 'updateStatus'])
@@ -50,6 +51,7 @@ Route::middleware(['level:operator'])->group(function () {
         ->name('transaction.updateStatus');
         Route::post('/transaction/{id}/pay', [TransactionController::class, 'pay'])
     ->name('transaction.pay');
+    Route::get('transaction/{transOrder}/print', [TransactionController::class, 'print'])->name('transaction.print');
     Route::post('/pickup/{id}/update-status', [TransLaundryPickupController::class, 'updateStatus'])
         ->name('pickup.updateStatus');
           Route::get('pickup', [TransLaundryPickupController::class, 'index'])->name('pickup.index');

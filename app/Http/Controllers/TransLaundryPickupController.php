@@ -28,9 +28,9 @@ class TransLaundryPickupController extends Controller
               });
         });
     }
-
+$perpage   = in_array($request->perpage, [10, 20, 30]) ? $request->perpage : 10;
     $title = 'Pickup Laundry';
-    $orders = $query->latest()->get();
+    $orders = $query->latest()->paginate($perpage);
 
     return view('pickup.index', compact('title', 'orders'));
 }

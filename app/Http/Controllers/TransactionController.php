@@ -30,8 +30,9 @@ class TransactionController extends Controller
                     });
             });
         }
+        $perpage   = in_array($request->perpage, [10, 20, 30]) ? $request->perpage : 10;
         $title = 'Transaksi Order';
-        $orders = $query->latest()->get();
+        $orders = $query->latest()->paginate($perpage);
 
         return view('transaction.index', compact('title', 'orders'));
     }
@@ -180,9 +181,14 @@ public function store(Request $request)
 
         $pay = $request->order_pay ?? 0;
 
-        if ($pay < $grandTotal) {
-            throw new \Exception('Pembayaran kurang! Anda harus memasukkan nominal pembayaran minimal sebesar total tagihan.');
-        }
+// Jika pay diisi tapi kurang dari total, tolak
+if ($pay > 0 && $pay < $grandTotal) {
+    throw new \Exception('Pembayaran kurang! Nominal bayar harus minimal sebesar total tagihan.');
+}
+
+$change = max(0, $pay - $grandTotal);
+// pay = 0 berarti bayar nanti saat pickup
+$payment_status = ($pay > 0 && $pay >= $grandTotal) ? 1 : 0;
 
         $change = $pay - $grandTotal;
         $payment_status = $pay >= $grandTotal ? 1 : 0;
@@ -274,5 +280,9 @@ public function store(Request $request)
     return redirect()->route('transaction.index')
         ->with('success', 'Pembayaran berhasil');
 }
-
+public function print($id)
+{
+    $orders = TransOrder::with(['customer', 'details.service'])->findOrFail($id);
+    return view('transaction.print', compact('orders'));
+}
 }
