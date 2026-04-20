@@ -29,7 +29,7 @@
                     <div class="col-lg-8">
 
                         {{-- Tipe Pelanggan --}}
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="fw-semibold d-block mb-2">Tipe Pelanggan</label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="customer_type" id="type_member"
@@ -41,11 +41,11 @@
                                     value="baru" onchange="toggleCustomerType()">
                                 <label class="form-check-label" for="type_baru">Data Baru / Non-Member</label>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="row mb-3 mt-3">
+                        {{-- <div class="row mb-3 mt-3"> --}}
                             {{-- Pilih Customer (Member) --}}
-                            <div class="col-md-6" id="section_member">
+                            {{-- <div class="col-md-6" id="section_member">
                                 <label class="form-label fw-semibold">Pilih Pelanggan (Member)</label>
                                 <select name="customer_id" class="form-select" onchange="recalcTotal()">
                                     <option value="">-- Pilih Pelanggan --</option>
@@ -55,10 +55,10 @@
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
 
                             {{-- Data Baru --}}
-                            <div class="col-md-12 d-none" id="section_baru">
+                            {{-- <div class="col-md-12 d-none" id="section_baru">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label class="form-label fw-semibold">Nama Pelanggan</label>
@@ -79,19 +79,48 @@
                                         <i class="bi bi-tag-fill me-1"></i>Daftar sebagai Member Baru (Diskon 5%)
                                     </label>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-3 mt-3">
+                            {{-- <div class="col-md-3 mt-3">
                                 <label class="form-label fw-semibold">Tanggal Laundry</label>
                                 <input type="date" name="order_date" class="form-control" value="{{ old('order_date') }}">
+                            </div> --}}
+                            {{-- <div class="col-md-3 mt-3">
+                                <label class="form-label fw-semibold">Estimasi Selesai</label>
+                                <input type="date" name="order_end_date" class="form-control" value="{{ old('order_end_date') }}">
+                            </div> --}}
+                        {{-- </div> --}}
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Order Code</label>
+                                <input type="text" class="form-control bg-light" value="ORD-{{ now()->format('YmdHis') }}" readonly>
                             </div>
-                            <div class="col-md-3 mt-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Customer</label>
+                                <select name="customer_id" class="form-select">
+                                    <option value="">-- Pilih Customer --</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
+                                            {{ $customer->customer_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                         <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Tanggal Order</label>
+                                <input type="date" name="order_date" class="form-control" value="{{ old('order_date') }}">
+                            </div>
+                            <div class="col-md-6">
                                 <label class="form-label fw-semibold">Estimasi Selesai</label>
                                 <input type="date" name="order_end_date" class="form-control" value="{{ old('order_end_date') }}">
                             </div>
                         </div>
 
-                        <hr class="my-4">
+                        <hr class="mb-4">
 
                         {{-- Tabel Detail Layanan --}}
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -149,7 +178,7 @@
                         </div>
 
                         {{-- Voucher --}}
-                        <div class="mt-3">
+                        {{-- <div class="mt-3">
                             <label class="form-label fw-semibold">Kode Voucher <span class="text-muted fw-normal">(Opsional)</span></label>
                             <div class="input-group" style="max-width:320px">
                                 <span class="input-group-text bg-white"><i class="bi bi-ticket-perforated text-muted"></i></span>
@@ -157,7 +186,7 @@
                                     placeholder="Masukkan kode voucher..." oninput="recalcTotal()">
                             </div>
                             <small class="text-muted">Setiap voucher valid memberikan diskon 10%.</small>
-                        </div>
+                        </div> --}}
 
                     </div>
 
@@ -174,20 +203,21 @@
 
                                 <div class="card-body p-4">
 
-                                    <div class="d-flex justify-content-between mb-2">
+                                    {{-- <div class="d-flex justify-content-between mb-2">
                                         <span class="text-muted small">Subtotal</span>
                                         <span id="display-subtotal" class="fw-semibold small">Rp 0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2">
+                                    </div> --}}
+                                    {{-- <div class="d-flex justify-content-between mb-2">
                                         <span class="text-muted small">Pajak (10%)</span>
                                         <span id="display-tax" class="fw-semibold small">Rp 0</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-3">
+                                    </div> --}}
+                                    {{-- <div class="d-flex justify-content-between mb-3">
                                         <span class="text-muted small">Diskon (<span id="discount-percent-label">0</span>%)</span>
                                         <span id="display-discount" class="fw-semibold small text-danger"> Rp 0</span>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="border-top pt-3 mb-4">
+                                    {{-- <div class="border-top pt-3 mb-4"> --}}
+                                    <div class="mb-4">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold">Total</span>
                                             <span id="display-grandtotal" class="fw-bold fs-5 text-success">Rp 0</span>
@@ -195,9 +225,9 @@
                                     </div>
 
                                     <input type="hidden" name="subtotal" id="input-subtotal">
-                                    <input type="hidden" name="discount_percent" id="input-discount-percent" value="0">
+                                    {{-- <input type="hidden" name="discount_percent" id="input-discount-percent" value="0">
                                     <input type="hidden" name="discount_nominal" id="input-discount-nominal" value="0">
-                                    <input type="hidden" name="tax" id="input-tax">
+                                    <input type="hidden" name="tax" id="input-tax"> --}}
                                     <input type="hidden" name="total" id="input-grandtotal">
 
                                     {{-- Input Bayar --}}
@@ -252,13 +282,13 @@
         @endforeach
     };
 
-    const newMemberCustomers = [
-        @foreach ($customers as $customer)
-            @if(!\App\Models\TransOrder::where('customer_id', $customer->id)->exists())
-                "{{ $customer->id }}",
-            @endif
-        @endforeach
-    ];
+    // const newMemberCustomers = [
+    //     @foreach ($customers as $customer)
+    //         @if(!\App\Models\TransOrder::where('customer_id', $customer->id)->exists())
+    //             "{{ $customer->id }}",
+    //         @endif
+    //     @endforeach
+    // ];
 
     function formatRupiah(angka) {
         return 'Rp ' + Number(angka).toLocaleString('id-ID');
@@ -289,48 +319,50 @@
             subtotal += parseInt(row.querySelector('.subtotal-hidden').value) || 0;
         });
 
-        let discountPercent = 0;
-        const isBaru      = document.getElementById('type_baru').checked;
-        const isMember    = document.getElementById('type_member').checked;
-        const isNewMember = document.getElementById('is_new_member').checked;
+        // let discountPercent = 0;
+        // const isBaru      = document.getElementById('type_baru').checked;
+        // const isMember    = document.getElementById('type_member').checked;
+        // const isNewMember = document.getElementById('is_new_member').checked;
 
-        if (isBaru && isNewMember) {
-            discountPercent += 5;
-        } else if (isMember) {
-            const selectedId = document.querySelector('select[name="customer_id"]').value;
-            if (newMemberCustomers.includes(selectedId)) discountPercent += 5;
-        }
+        // if (isBaru && isNewMember) {
+        //     discountPercent += 5;
+        // } else if (isMember) {
+        //     const selectedId = document.querySelector('select[name="customer_id"]').value;
+        //     if (newMemberCustomers.includes(selectedId)) discountPercent += 5;
+        // }
 
-        const voucherCode = document.getElementById('voucher_code').value.trim();
-        if (voucherCode !== '') discountPercent += 10;
+        // const voucherCode = document.getElementById('voucher_code').value.trim();
+        // if (voucherCode !== '') discountPercent += 10;
 
-        const tax             = Math.round(subtotal * 0.10);
-        const subtotalWithTax = subtotal + tax;
-        const discountNominal = Math.round(subtotalWithTax * (discountPercent / 100));
-        const grandTotal      = subtotalWithTax - discountNominal;
+        // const tax             = Math.round(subtotal * 0.10);
+        // const subtotalWithTax = subtotal + tax;
+        // const discountNominal = Math.round(subtotalWithTax * (discountPercent / 100));
+        // const grandTotal      = subtotalWithTax - discountNominal;
+
+        const grandTotal = subtotal;
 
         document.getElementById('display-subtotal').textContent         = formatRupiah(subtotal);
-        document.getElementById('display-tax').textContent              = formatRupiah(tax);
-        document.getElementById('display-discount').textContent         = discountNominal > 0 ? '- ' + formatRupiah(discountNominal) : 'Rp 0';
-        document.getElementById('discount-percent-label').textContent   = discountPercent;
+        // document.getElementById('display-tax').textContent              = formatRupiah(tax);
+        // document.getElementById('display-discount').textContent         = discountNominal > 0 ? '- ' + formatRupiah(discountNominal) : 'Rp 0';
+        // document.getElementById('discount-percent-label').textContent   = discountPercent;
         document.getElementById('display-grandtotal').textContent       = formatRupiah(grandTotal);
 
         document.getElementById('input-subtotal').value         = subtotal;
-        document.getElementById('input-discount-percent').value = discountPercent;
-        document.getElementById('input-discount-nominal').value = discountNominal;
-        document.getElementById('input-tax').value              = tax;
+        // document.getElementById('input-discount-percent').value = discountPercent;
+        // document.getElementById('input-discount-nominal').value = discountNominal;
+        // document.getElementById('input-tax').value              = tax;
         document.getElementById('input-grandtotal').value       = grandTotal;
 
         calcChange();
     }
 
-    function toggleCustomerType() {
-        const isMember = document.getElementById('type_member').checked;
-        document.getElementById('section_member').classList.toggle('d-none', !isMember);
-        document.getElementById('section_baru').classList.toggle('d-none', isMember);
-        if (isMember) document.getElementById('is_new_member').checked = false;
-        recalcTotal();
-    }
+    // function toggleCustomerType() {
+    //     const isMember = document.getElementById('type_member').checked;
+    //     document.getElementById('section_member').classList.toggle('d-none', !isMember);
+    //     document.getElementById('section_baru').classList.toggle('d-none', isMember);
+    //     if (isMember) document.getElementById('is_new_member').checked = false;
+    //     recalcTotal();
+    // }
 
     function calcChange() {
         const grandTotal = parseInt(document.getElementById('input-grandtotal').value) || 0;

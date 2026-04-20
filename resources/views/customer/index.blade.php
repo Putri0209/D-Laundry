@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-@section('content')
 <div class="pagetitle">
     <h1>Data Pelanggan</h1>
     <nav>

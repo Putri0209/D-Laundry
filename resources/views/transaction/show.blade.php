@@ -32,9 +32,9 @@
                                 <div class="text-muted small mb-1">Pelanggan</div>
                                 <div class="fw-bold">
                                     {{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}
-                                    @if(!$order->customer_id)
+                                    {{-- @if(!$order->customer_id)
                                         <span class="badge bg-secondary ms-1" style="font-size:.7rem">Non-Member</span>
-                                    @endif
+                                    @endif --}}
                                 </div>
                             </div>
                         </div>
@@ -106,15 +106,15 @@
 
                             <div class="card-body p-4">
 
-                                @php
+                                {{-- @php
                                     $subtotalVal = $order->subtotal > 0 ? $order->subtotal : $order->details->sum('subtotal');
                                 @endphp
 
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted small">Subtotal</span>
                                     <span class="fw-semibold small">Rp {{ number_format($subtotalVal, 0, ',', '.') }}</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
+                                </div> --}}
+                                {{-- <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted small">Pajak (10%)</span>
                                     <span class="fw-semibold small">Rp {{ number_format($order->tax, 0, ',', '.') }}</span>
                                 </div>
@@ -123,9 +123,10 @@
                                     <span class="text-muted small">Diskon ({{ $order->discount_percent }}%)</span>
                                     <span class="fw-semibold small text-danger">- Rp {{ number_format($order->discount_nominal, 0, ',', '.') }}</span>
                                 </div>
-                                @endif
+                                @endif --}}
 
-                                <div class="border-top pt-3 mb-4">
+                                {{-- <div class="border-top pt-3 mb-4"> --}}
+                                <div class="mb-4">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="fw-bold">Total</span>
                                         <span class="fw-bold fs-5 text-primary">Rp {{ number_format($order->total, 0, ',', '.') }}</span>

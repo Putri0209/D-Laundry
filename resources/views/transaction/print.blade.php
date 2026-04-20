@@ -188,28 +188,28 @@
         </table>
     </div>
 
-    <div class="divider"></div>
+    {{-- <div class="divider"></div> --}}
 
     {{-- Totals --}}
     <div class="totals">
-        @php
+        {{-- @php
             $subtotalVal = $orders->subtotal > 0 ? $orders->subtotal : $orders->details->sum('subtotal');
-        @endphp
+        @endphp --}}
         <table>
-            <tr>
+            {{-- <tr>
                 <td>Subtotal</td>
                 <td>Rp {{ number_format($subtotalVal, 0, ',', '.') }}</td>
-            </tr>
-            <tr>
+            </tr> --}}
+            {{-- <tr>
                 <td>Pajak (10%)</td>
                 <td>Rp {{ number_format($orders->tax, 0, ',', '.') }}</td>
-            </tr>
-            @if($orders->discount_nominal > 0)
+            </tr> --}}
+            {{-- @if($orders->discount_nominal > 0)
             <tr>
                 <td>Diskon ({{ $orders->discount_percent }}%)</td>
                 <td>-Rp {{ number_format($orders->discount_nominal, 0, ',', '.') }}</td>
             </tr>
-            @endif
+            @endif --}}
             <tr style="font-weight:bold; font-size:13px">
                 <td style="border-top:1px dashed #000; padding-top:8px;">TOTAL</td>
                 <td style="border-top:1px dashed #000; padding-top:8px;">Rp {{ number_format($orders->total, 0, ',', '.') }}</td>

@@ -70,9 +70,9 @@
                                 <td>{{ $orders->firstItem() + $loop->index }}</td>
                                 <td>
                                     {{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}
-                                    @if(!$order->customer_id)
+                                    {{-- @if(!$order->customer_id)
                                         <span class="badge bg-secondary ms-1" style="font-size:.7rem">Non-Member</span>
-                                    @endif
+                                    @endif --}}
                                 </td>
                                 <td>{{ $order->order_code }}</td>
                                 <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d-m-Y') }}</td>

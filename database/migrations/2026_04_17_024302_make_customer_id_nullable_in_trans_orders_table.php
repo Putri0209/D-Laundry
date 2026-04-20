@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('trans_orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id')->nullable()->change();
-        });
-    }
+    // public function up(): void
+    // {
+    //     Schema::table('trans_orders', function (Blueprint $table) {
+    //         $table->unsignedBigInteger('customer_id')->nullable()->change();
+    //     });
+    // }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('trans_orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id')->nullable(false)->change();
-        });
-    }
+    // /**
+    //  * Reverse the migrations.
+    //  */
+    // public function down(): void
+    // {
+    //     Schema::table('trans_orders', function (Blueprint $table) {
+    //         $table->unsignedBigInteger('customer_id')->nullable(false)->change();
+    //     });
+    // }
 };
