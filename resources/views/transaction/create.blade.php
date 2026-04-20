@@ -190,7 +190,7 @@
                                     <div class="border-top pt-3 mb-4">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold">Total</span>
-                                            <span id="display-grandtotal" class="fw-bold fs-5 text-bg-success">Rp 0</span>
+                                            <span id="display-grandtotal" class="fw-bold fs-5 text-success">Rp 0</span>
                                         </div>
                                     </div>
 

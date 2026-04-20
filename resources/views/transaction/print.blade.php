@@ -175,7 +175,7 @@
                 @foreach($orders->details as $d)
                 <tr>
                     <td>{{ $d->service->service_name ?? '-' }}</td>
-                    <td style="text-align:right">{{ $d->qty }} kg</td>
+                    <td style="text-align:right">{{ $d->qty }}kg</td>
                     <td style="text-align:right">Rp {{ number_format($d->subtotal, 0, ',', '.') }}</td>
                 </tr>
                 @if($d->notes)

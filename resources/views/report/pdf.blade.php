@@ -74,8 +74,8 @@
                 <th>Customer</th>
                 <th>Tanggal</th>
                 <th>Selesai</th>
-                <th>Total</th>
                 <th>Status</th>
+                <th>Total</th>
             </tr>
         </thead>
 
@@ -85,12 +85,12 @@
                 <td>{{ $key + 1 }}</td>
                 <td>{{ $order->order_code }}</td>
                 <td class="text-left">{{ $order->customer_id ? $order->customer->customer_name : $order->customer_name }}</td>
-                <td>{{ $order->order_date }}</td>
-                <td>{{ $order->order_end_date }}</td>
-                <td>Rp {{ number_format($order->total) }}</td>
+                <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d-m-Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($order->order_end_date)->format('d-m-Y') }}</td>
                 <td>
-                    {{ $order->order_status == 0 ? 'Belum Diambil' : 'Sudah Diambil' }}
+                    {{ $order->payment_status == 0 ? 'Belum Dibayar' : 'Lunas' }}
                 </td>
+                <td>Rp {{ number_format($order->total) }}</td>
             </tr>
             @empty
             <tr>
@@ -98,15 +98,14 @@
             </tr>
             @endforelse
         </tbody>
-    </table>
 
-    {{-- ================= TOTAL ================= --}}
-    <br>
-    <table>
-        <tr>
-            <td class="text-left"><strong>Total Pendapatan</strong></td>
-            <td><strong>Rp {{ number_format($orders->sum('total')) }}</strong></td>
-        </tr>
+        {{-- ================= TOTAL ================= --}}
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-right"><strong>Total Pendapatan (Lunas)</strong></td>
+                <td colspan="2"><strong>Rp {{ number_format($orders->where('payment_status', 1)->sum('total')) }}</strong></td>
+            </tr>
+        </tfoot>
     </table>
 
     {{-- ================= FOOTER ================= --}}
