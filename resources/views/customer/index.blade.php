@@ -13,9 +13,9 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card border-0 shadow-sm">
-            <div class="card-body">
+            <div class="card-body p-4">
 
-                <h5 class="card-title">{{ $title ?? '' }}</h5>
+                <h5 class="card-title mb-4">{{ $title ?? '' }}</h5>
 
                {{-- Tampilkan + Search + Tambah sejajar --}}
 <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
@@ -37,7 +37,7 @@
         </div>
 
         {{-- Search --}}
-        <form method="GET" action="{{ route('customer.index') }}" class="d-flex gap-2 flex-grow-1 mx-4" id="search-form">
+        <form method="GET" action="{{ route('customer.index') }}" class="d-flex gap-2 flex-grow-1 mx-3" id="search-form">
             <input type="hidden" name="perpage" value="{{ request('perpage', 10) }}">
             <input type="text" name="search" class="form-control form-control-sm"
                 placeholder="Cari nama, no hp, atau alamat..."
@@ -61,8 +61,8 @@
 </div>
 
                 {{-- Tabel --}}
-                <table class="table table-bordered table-striped">
-                    <thead>
+                <table class="table table-bordered table-striped align-middle">
+                    <thead class="table-light">
                         <tr>
                             <th >No</th>
                             <th>Nama Pelanggan</th>

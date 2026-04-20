@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
                 <div class="mb-3" align="right">
-                    <a href="{{route('level.create')}}" class="btn btn-primary btn-sm">Create New Level</a>
+                    <a href="{{route('level.create')}}" class="btn btn-primary btn-sm">+ Tambah Level</a>
                 </div>
                 <table class="table table-bordered table-striped">
                     <thead>
