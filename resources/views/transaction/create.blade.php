@@ -314,9 +314,10 @@
     }
 
     function recalcTotal() {
-        let subtotal = 0;
+        // let subtotal = 0;
+        let total = 0;
         document.querySelectorAll('#table-detail tbody tr').forEach(row => {
-            subtotal += parseInt(row.querySelector('.subtotal-hidden').value) || 0;
+            total += parseInt(row.querySelector('.subtotal-hidden').value) || 0;
         });
 
         // let discountPercent = 0;
@@ -339,15 +340,16 @@
         // const discountNominal = Math.round(subtotalWithTax * (discountPercent / 100));
         // const grandTotal      = subtotalWithTax - discountNominal;
 
-        const grandTotal = subtotal;
+        // const grandTotal = subtotal;
+        const grandTotal = total;
 
-        document.getElementById('display-subtotal').textContent         = formatRupiah(subtotal);
+        // document.getElementById('display-subtotal').textContent         = formatRupiah(subtotal);
         // document.getElementById('display-tax').textContent              = formatRupiah(tax);
         // document.getElementById('display-discount').textContent         = discountNominal > 0 ? '- ' + formatRupiah(discountNominal) : 'Rp 0';
         // document.getElementById('discount-percent-label').textContent   = discountPercent;
         document.getElementById('display-grandtotal').textContent       = formatRupiah(grandTotal);
 
-        document.getElementById('input-subtotal').value         = subtotal;
+        // document.getElementById('input-subtotal').value         = subtotal;
         // document.getElementById('input-discount-percent').value = discountPercent;
         // document.getElementById('input-discount-nominal').value = discountNominal;
         // document.getElementById('input-tax').value              = tax;
