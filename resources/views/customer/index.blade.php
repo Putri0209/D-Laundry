@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
                 <div class="mb-3" align="right">
-                    <a href="{{route('customer.create')}}" class="btn btn-primary btn-sm">Create New Customer</a>
+                    <a href="{{route('customer.create')}}" class="btn btn-primary btn-sm">+ Tambah Pelanggan</a>
                 </div>
                 <table class="table table-bordered table-striped">
                     <thead>

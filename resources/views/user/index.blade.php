@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
                 <div class="mb-3" align="right">
-                    <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">Create New User</a>
+                    <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">+ Tambah Pengguna</a>
                 </div>
                 <table class="table table-bordered table-striped">
                     <thead>
