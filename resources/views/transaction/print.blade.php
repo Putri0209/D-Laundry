@@ -12,36 +12,34 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 12px;
             background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
         }
 
         .receipt {
             width: 300px;
             background: #fff;
             margin: 20px auto;
-            padding: 15px;
+            padding: 20px 24px;
             box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
 
         .header {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
         .header h3 {
-            margin: 0 0 4px 0;
+            margin: 0 0 6px 0;
             font-size: 16px;
             letter-spacing: 1px;
         }
         .header p {
-            margin: 2px 0;
+            margin: 4px 0;
             font-size: 11px;
         }
 
         .divider {
             border: none;
             border-top: 1px dashed #000;
-            margin: 8px 0;
+            margin: 12px 0;
         }
 
         .info table {
@@ -50,15 +48,14 @@
             border-collapse: collapse;
         }
         .info td {
-            padding: 2px 0;
+            padding: 3px 0;
             vertical-align: top;
         }
         .info td:first-child {
-            width: 80px;
+            width: 85px;
             white-space: nowrap;
         }
 
-        /* Items table */
         .items table {
             width: 100%;
             font-size: 11px;
@@ -66,18 +63,20 @@
             table-layout: fixed;
         }
         .items th, .items td {
-            padding: 3px 0;
             vertical-align: top;
         }
         .items th {
             text-align: left;
             border-bottom: 1px dashed #000;
+            padding: 4px 0 8px;
+        }
+        .items td {
+            padding: 5px 0;
         }
         .items th:nth-child(1), .items td:nth-child(1) { width: auto; }
         .items th:nth-child(2), .items td:nth-child(2) { width: 45px; text-align: right; white-space: nowrap; }
         .items th:nth-child(3), .items td:nth-child(3) { width: 85px; text-align: right; white-space: nowrap; }
 
-        /* Totals table */
         .totals table {
             width: 100%;
             font-size: 11px;
@@ -85,7 +84,7 @@
             table-layout: fixed;
         }
         .totals td {
-            padding: 2px 0;
+            padding: 3px 0;
             vertical-align: top;
         }
         .totals td:first-child  { width: auto; }
@@ -93,8 +92,8 @@
 
         .status-box {
             text-align: center;
-            padding: 5px;
-            margin: 8px 0;
+            padding: 8px 12px;
+            margin: 12px 0;
             font-weight: bold;
             font-size: 12px;
         }
@@ -103,9 +102,9 @@
 
         .footer {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 12px;
             font-size: 10px;
-            line-height: 1.6;
+            line-height: 2;
         }
 
         @media print {
@@ -114,7 +113,7 @@
                 width: 100%;
                 max-width: 300px;
                 margin: 0 auto;
-                padding: 5px;
+                padding: 20px 24px;
                 box-shadow: none;
             }
         }
@@ -181,7 +180,7 @@
                 </tr>
                 @if($d->notes)
                 <tr>
-                    <td colspan="3" style="font-size:10px; padding-left:4px">* {{ $d->notes }}</td>
+                    <td colspan="3" style="font-size:10px; padding-left:4px; padding-bottom:4px;">* {{ $d->notes }}</td>
                 </tr>
                 @endif
                 @endforeach
@@ -212,8 +211,8 @@
             </tr>
             @endif
             <tr style="font-weight:bold; font-size:13px">
-                <td style="border-top:1px dashed #000; padding-top:4px">TOTAL</td>
-                <td style="border-top:1px dashed #000; padding-top:4px">Rp {{ number_format($orders->total, 0, ',', '.') }}</td>
+                <td style="border-top:1px dashed #000; padding-top:8px;">TOTAL</td>
+                <td style="border-top:1px dashed #000; padding-top:8px;">Rp {{ number_format($orders->total, 0, ',', '.') }}</td>
             </tr>
         </table>
     </div>
@@ -242,8 +241,8 @@
 
     {{-- Footer --}}
     <div class="footer">
-        <p>Terima kasih atas kunjungan Anda!</p>
-        <p>Harap bawa struk ini saat pengambilan</p>
+        <p style="margin: 0;">Terima kasih atas kunjungan Anda!</p>
+        <p style="margin: 4px 0 0;">Harap bawa struk ini saat pengambilan</p>
     </div>
 
 </div>

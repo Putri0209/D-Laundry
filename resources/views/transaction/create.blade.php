@@ -23,7 +23,7 @@
             <form action="{{ route('transaction.store') }}" method="POST" id="main-form">
                 @csrf
 
-                <div class="row g-4">
+                <div class="row">
 
                     {{-- ===== KOLOM KIRI ===== --}}
                     <div class="col-lg-8">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
 
-                        <div class="row mb-3">
+                        <div class="row mb-3 mt-3">
                             {{-- Pilih Customer (Member) --}}
                             <div class="col-md-6" id="section_member">
                                 <label class="form-label fw-semibold">Pilih Pelanggan (Member)</label>
@@ -184,13 +184,13 @@
                                     </div>
                                     <div class="d-flex justify-content-between mb-3">
                                         <span class="text-muted small">Diskon (<span id="discount-percent-label">0</span>%)</span>
-                                        <span id="display-discount" class="fw-semibold small text-danger">- Rp 0</span>
+                                        <span id="display-discount" class="fw-semibold small text-danger"> Rp 0</span>
                                     </div>
 
                                     <div class="border-top pt-3 mb-4">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold">Total</span>
-                                            <span id="display-grandtotal" class="fw-bold fs-5 text-primary">Rp 0</span>
+                                            <span id="display-grandtotal" class="fw-bold fs-5 text-bg-success">Rp 0</span>
                                         </div>
                                     </div>
 

@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ $title ?? '' }}</h5>
                 <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
-                    <form method="GET" action="{{ route('service.index') }}" class="d-flex gap-2 flex-grow-1" style="max-width:400px">
+                    <form method="GET" action="{{ route('service.index') }}" class="d-flex gap-2 flex-grow-1" style="max-width:600px">
                         <input type="text" name="search" class="form-control form-control-sm"
                             placeholder="Cari nama layanan..."
                             value="{{ request('search') }}">
@@ -27,21 +27,21 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Service Name</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Action</th>
+                            <th>Nama Layanan</th>
+                            <th>Harga</th>
+                            <th>Deskripsi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
 
                 <tbody>
-                    @foreach ($services as $service )
+                    @forelse ($services as $service )
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $service->service_name }}</td>
                         <td>Rp {{ number_format($service->price,2, ',', '.')}}</td>
                         <td>{{ $service->description }}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="{{ route('service.edit', $service->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
                             <form id="delete-form-{{ $service->id }}" action="{{ route('service.destroy', $service->id) }}" method="post" class="d-inline">
                                 @csrf
@@ -50,7 +50,14 @@
                             </form>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                <i class="bi bi-person-x fs-4 d-block mb-2"></i>
+                                Data layanan kosong
+                            </td>
+                        </tr>
+                        @endforelse
                 </tbody>
                 </table>
             </div>

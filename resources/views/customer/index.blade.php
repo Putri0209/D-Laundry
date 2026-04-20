@@ -1,11 +1,21 @@
 @extends('layouts.app')
 @section('content')
+@section('content')
+<div class="pagetitle">
+    <h1>Data Pelanggan</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Home</a></li>
+            <li class="breadcrumb-item active">Pelanggan</li>
+        </ol>
+    </nav>
+</div>
 <div class="row">
     <div class="col-lg-12">
         <div class="card border-0 shadow-sm">
-            <div class="card-body p-4">
+            <div class="card-body">
 
-                <h5 class="card-title mb-4">{{ $title ?? '' }}</h5>
+                <h5 class="card-title">{{ $title ?? '' }}</h5>
 
                {{-- Tampilkan + Search + Tambah sejajar --}}
 <div class="d-flex justify-content-between align-items-center mb-3 gap-2">
@@ -27,7 +37,7 @@
         </div>
 
         {{-- Search --}}
-        <form method="GET" action="{{ route('customer.index') }}" class="d-flex gap-2 flex-grow-1 mx-3" id="search-form">
+        <form method="GET" action="{{ route('customer.index') }}" class="d-flex gap-2 flex-grow-1 mx-4" id="search-form">
             <input type="hidden" name="perpage" value="{{ request('perpage', 10) }}">
             <input type="text" name="search" class="form-control form-control-sm"
                 placeholder="Cari nama, no hp, atau alamat..."
@@ -51,14 +61,14 @@
 </div>
 
                 {{-- Tabel --}}
-                <table class="table table-bordered table-striped align-middle">
-                    <thead class="table-light">
+                <table class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <th style="width:50px">No</th>
+                            <th >No</th>
                             <th>Nama Pelanggan</th>
-                            <th style="width:160px">No HP</th>
+                            <th>No HP</th>
                             <th>Alamat</th>
-                            <th style="width:100px" class="text-center">Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,7 +96,7 @@
                         <tr>
                             <td colspan="5" class="text-center text-muted py-4">
                                 <i class="bi bi-person-x fs-4 d-block mb-2"></i>
-                                Tidak ada pelanggan ditemukan.
+                                Data pelanggan kosong
                             </td>
                         </tr>
                         @endforelse

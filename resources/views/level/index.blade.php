@@ -13,7 +13,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
 
@@ -22,7 +22,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $level->level_name }}</td>
-                        <td>
+                        <td class="text-center">
                             <a href="{{ route('level.edit', $level->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
                             <form id="delete-form-{{ $level->id }}" action="{{ route('level.destroy', $level->id) }}" method="post" class="d-inline">
                                 @csrf

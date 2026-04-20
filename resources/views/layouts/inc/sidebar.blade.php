@@ -14,7 +14,9 @@
 
 
             <li class="nav-item">
+                @if($level == 'Operator' || $level == 'Administrator')
 <li class="nav-heading">Master Data</li>
+@endif
                       @if($level == 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('level.index') }}">
@@ -52,24 +54,21 @@
 
             </li><!-- End Components Nav -->
 
+            @if($level == 'Operator' || $level == 'Administrator')
             <li class="nav-heading">Transaksi</li>
-                     @if($level == 'Operator' || $level == 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('transaction.index') }}">
                             <i class="bi bi-receipt-cutoff"></i>
                             <span>Order</span>
                         </a>
                     </li>
-                    @endif
 
-@if($level == 'Operator' || $level == 'Administrator')
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="{{ route('pickup.index') }}">
                            <i class="bi bi-basket2-fill"></i>
                             <span>Pickup</span>
                         </a>
                     </li>
-
 @endif
  @if($level == 'Pimpinan')
  <li class="nav-heading">Transaksi</li>

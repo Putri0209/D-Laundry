@@ -64,17 +64,17 @@
                 </div>
 
                 {{-- Tabel --}}
-                <table class="table table-bordered table-striped align-middle">
-                    <thead class="table-light">
+                <table class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <th style="width:50px">No</th>
-                            <th>Customer</th>
+                            <th>No</th>
+                            <th>Pelanggan</th>
                             <th>Kode Order</th>
                             <th>Tgl Laundry</th>
                             <th>Est. Selesai</th>
                             <th>Pembayaran</th>
                             <th>Status</th>
-                            <th style="width:140px" class="text-center">Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

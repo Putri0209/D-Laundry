@@ -50,10 +50,10 @@
                 </div>
 
                 {{-- Tabel --}}
-                <table class="table table-bordered table-striped align-middle">
-                    <thead class="table-light">
+                <table class="table table-bordered table-striped">
+                    <thead>
                         <tr>
-                            <th style="width:50px">No</th>
+                            <th>No</th>
                             <th>Pelanggan</th>
                             <th>Kode Order</th>
                             <th>Tgl Laundry</th>
@@ -61,7 +61,7 @@
                             <th>Total</th>
                             <th>Status</th>
                             <th>Pembayaran</th>
-                            <th style="width:100px" class="text-center">Aksi</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

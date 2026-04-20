@@ -18,8 +18,8 @@ class TypeOfServiceController extends Controller
             $q->where('service_name', 'like', "%$search%");
         });
     }
-        $title = "Type of Service";
-        $services = TypeOfService::orderBy('id','DESC')->get();
+        $title = "Data Layanan";
+       $services = $query->orderBy('id','DESC')->get();
         return view('service.index', compact('title', 'services'));
     }
 
