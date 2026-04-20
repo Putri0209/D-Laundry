@@ -61,8 +61,8 @@
 </div>
 
                 {{-- Tabel --}}
-                <table class="table table-bordered table-striped align-middle">
-                    <thead class="table-light">
+                <table class="table table-bordered table-striped">
+                    <thead>
                         <tr>
                             <th >No</th>
                             <th>Nama Pelanggan</th>
